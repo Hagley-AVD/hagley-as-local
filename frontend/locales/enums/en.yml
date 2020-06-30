@@ -1,0 +1,15 @@
+en:
+  enumerations:
+          event_event_type:
+                  files_on_roxanne: Files on Roxanne
+                  disk_image: Disk Image
+                  digitized: Digitized
+                  digitization_recommendation: Digitization Recommendation
+                  correction_update: Correction/Update
+                  returned_exhibit_loan_conservation: Returned, Exhibit/Loan/Conservation
+                  in_conservation: In Conservation
+                  on_loan: On Loan
+                  on_exhibit: On Exhibit
+                  exhibit_treatment_request: Exhibit Treatment Request
+                  treatment: Treatment
+                  condition_survey: Condition Survey

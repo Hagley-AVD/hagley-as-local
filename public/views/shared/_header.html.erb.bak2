@@ -1,0 +1,21 @@
+<section  id="header">
+  <div class="row">
+    <div class="col-md-8 col-sm-12 col-xs-12">
+        <% unless request.original_fullpath == '/' %>
+          <a title="<%=t('brand.title_link_text') %>" href="<%= AppConfig[:public_proxy_url] %>">
+        <% end %>
+	<img id="hmill" src="/assets/images/hagley-logo-white-on-trans.png"/>
+        <% unless request.original_fullpath == '/' %>
+          </a>
+        <% end %>
+    <div class="col-sm-10 col-xs-9">
+		    <ul id="hagley-menu">
+          <li class="menu_first"><a href="https://www.hagley.org/research" target="_blank">RESEARCH</a></li>
+          <li><a href="https://www.hagley.org/research/collections/research-services" target="_blank">SERVICES</a></li>
+          <li><a href="https://www.hagley.org/research/search-hagley-collections" target="_blank">SEARCH GUIDE</a></li>
+          <li class="menu_last"><a href="https://www.hagley.org/contact-us">CONTACT US</a></li>
+    </ul>
+    </div></div>
+    <div class="col-md-4 col-auto hidden-sm hidden-xs"><img class="logo" src="<%= asset_path(AppConfig[:pui_branding_img]) %>" alt="" /></div>
+  </div>
+</section>

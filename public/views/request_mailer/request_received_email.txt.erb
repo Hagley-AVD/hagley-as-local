@@ -1,0 +1,11 @@
+<%=t('request.email_header') %>
+
+-- Question sent from --
+Title: <%= @request.title %>
+URL: <%= "#{AppConfig[:public_proxy_url].sub(/\/^/, '')}#{@request.request_uri}" %>
+
+-- Your Details --
+Name: <%= @request.user_name %>
+Email: @request.user_email %>
+Notes for Staff:
+<%= @request.note  %>
