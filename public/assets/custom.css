@@ -260,6 +260,10 @@ div.hagley-vault img{
 .hagley-vault-wrapper{
 	text-align:center;
 }
+div.hagley-vault{
+	max-height:300px;
+	overflow-y:hidden;
+}
 .infinite-record-wrapper{
 	height:100%;
 }
