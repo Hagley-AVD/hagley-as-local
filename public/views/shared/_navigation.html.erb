@@ -16,13 +16,13 @@
             <li><a href="<%= app_prefix(link[0]) %>"><%= t(link[1]) %></a></li>
           <% end %>
           <% unless AppConfig[:pui_hide][:search_tab] %>
-		  <li><a href="/static/html/moo">Frequently Used Topics</a></li>
             <li><a href="<%=  app_prefix('/search?reset=true') %>" title="<%= I18n.t('search_tab', :target => t('archive._plural'))%>">
                 <span class="fa fa-search" aria-hidden="true"></span>
                 <span class="sr-only" id="nav-search">Search</span>
               </a>
             </li>
           <% end %>
+	  <li><a href="/static/html/frequent-topics">Frequently Used Topics</a></li>
         </ul>
       </div>
     </div>
