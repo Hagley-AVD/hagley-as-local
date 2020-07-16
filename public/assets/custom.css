@@ -467,6 +467,9 @@ padding-left:0px;
 .upper-record-details div.subnote,p, dl.dl-horizontal-fa, div.note-content{
 	padding-left: 35px;
 }
+div.fqt p{
+	padding-left:0;
+}
 dl.dl-horizontal-fa{
 	padding-top: 5px;
 }
@@ -830,3 +833,8 @@ div.hagley-menu-wrapper{
 	color:#000;
 	text-decoration: none;
 }
+.infinite-item-indent-2 h3{font-size: 1.15rem;}
+.infinite-item-indent-3 h3{font-size: 1.05rem;}
+.infinite-item-indent-4 h3{font-size: 1rem;}
+.infinite-item-indent-5 h3{font-size: 1rem;}
+.infinite-item-indent-6 h3{font-size: 1rem;}
