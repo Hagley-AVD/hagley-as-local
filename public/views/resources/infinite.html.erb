@@ -333,7 +333,7 @@ addition of being able to access all of the Series in a UL within the scrollspy.
 	</script>
 
 <div class="row feed-container" id="tabs">
-  <div class="infinite-record-wrapper col-sm-9" id="center-page">
+  <div class="infinite-record-wrapper col-sm-9 col-md-9 col-lg-6" id="center-page">
 
 <nav class="infinite-record-context">
       <div class="infinite-record-context-affix">
@@ -342,7 +342,7 @@ addition of being able to access all of the Series in a UL within the scrollspy.
             <i aria-hidden="true" class="fa fa-chevron-up"></i> <span>Return to top</span>
           </span>
           <span class="infinite-record-context-resource-title">
-            <%= @result.display_string %>
+	  	<h1><%= @result.display_string %></h1> Identifier: <%= @result.identifier %>
           </span>
         </a>
       </div>
@@ -363,7 +363,7 @@ addition of being able to access all of the Series in a UL within the scrollspy.
 
           </div>
       </div>
-      <div class="loader col-sm-offset-3 col-xs-offset-3"></div>
+      <div class="loader col-sm-offset-3 col-xs-offset-3"><span>Loading. Please Wait...</span></div>
 
 <script>
 function smoothScroll(id) {
