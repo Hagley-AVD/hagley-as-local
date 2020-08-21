@@ -1,7 +1,6 @@
 <%
   indent_level = @result.raw.fetch('ancestors', []).length
 %>
-<% if indent_level == 0 %>
 <div class="infinite-item infinite-item-indent-<%= indent_level %>">
   <div class="information" style="overflow: hidden;">
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => false} } %>
@@ -9,7 +8,7 @@
   <div class="infinite-desc-inner">
   <% scopecontent_note = @result.note('scopecontent') %>
   <% if scopecontent_note %>
-    <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => scopecontent_note, :notitle => false} %>
+    <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => scopecontent_note, :notitle => true} %>
   <% end %>
 
   <dl class="dl-horizontal">
@@ -80,41 +79,3 @@
   </dl>
   </div>
 </div>
-<%# start component body%>
-<% else %>
-<div class="infinite-item infinite-item-indent-<%= indent_level %>">
-  <div class="information" style="overflow: hidden;">
-      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => false} } %>
-  </div>
-  <div class="infinite-desc-inner">
-  <% scopecontent_note = @result.note('scopecontent') %>
-  <% if scopecontent_note %>
-	  <div class="infinite-abstract"><%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => scopecontent_note, :notitle => true} %></div>
-  <% end %>
-
-  <dl class="dl-horizontal component">
-
-    <% unless @result.dates.blank? %>
-	<dd class="inifinite-date"> <% @result.dates.each do |date| %>
-          <%= date['final_expression'] %>.
-  <% end %></dd>
-    <% end %>
-
-     <% physdesc_note = @result.note('physdesc') %>
-    <% if physdesc_note && !physdesc_note['note_text'].blank? %>
-      <dd class="infinite-physdesc">
-        <%= render partial: 'shared/single_note', locals: {:type => 'physdesc', :note_struct => physdesc_note, :notitle => true} %>
-      </dd>
-    <% end %>
-
-    <% accessrestrict_note = @result.note('accessrestrict').reject{|r| r['_inherited']} %>
-    <% if accessrestrict_note && !accessrestrict_note['note_text'].blank? %>
-      <dd>
-        <%= render partial: 'shared/single_note', locals: {:type => 'accessrestrict', :note_struct => accessrestrict_note, :notitle => true} %>
-      </dd>
-    <% end %>
-
-  </dl>
-  </div>
-</div>
-<% end %>
