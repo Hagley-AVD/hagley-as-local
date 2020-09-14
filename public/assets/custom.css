@@ -77,6 +77,7 @@ ul#hagley-menu li.menu_last a{
         font-family: "Lato", arial, sans-serif;
         letter-spacing: 1px;
 	line-height:0;
+	padding-bottom: 10px;
 }
 .new-footer div {
     padding: 10px 10px 0 15px;
@@ -867,3 +868,4 @@ div.infinite-item{margin-bottom:10px;background:rgba(245, 245, 245, 0.85);paddin
 	.page_actions .text-right{text-align:left;}
 	.root .infinite-item-indent-0 dl.dl-horizontal dd{margin-left:20px;}
 }
+.information .badge-and-identifier{font-size:16px;}
