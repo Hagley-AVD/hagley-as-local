@@ -61,8 +61,19 @@ end
   </div>
     <% comp_id = result.identifier %>
   <% unless comp_id.blank? %>
+  <% if result.primary_type == "archival_object" %>
+	  <% rrr = result.resolved_resource %>
+	  <% unless rrr.blank? %>
+	  <% col_id = (0..3).map {|part| result.resolved_resource["id_#{part}"]} %>
+  	  <% accession_number = col_id.reject(&:blank?).join("-") %>
+	<div class="identifier">
+		<span class="id-label">Identifier: <%= accession_number %>-<span class="component"><%= comp_id %></span>
+	</div>
+<% end %>
+<% else %>
     <div class="identifier">
       <span class="id-label"><%= t('search_sorting.identifier') %>:</span>&#160;<span class="component"><%= comp_id %></span>
     </div>
+    <% end %>
   <% end %>
 </div>
