@@ -46,7 +46,7 @@ end
 	  <%== result.display_string %>
   <% end %>
 <%= (props.fetch(:full,false)? '</h1>' : '</h3>').html_safe %>
-
+<%# Add dates to title on record pages %>
 <% if props.fetch(:full,false) %>
 <% unless @result.dates.blank? %>
        <% @result.dates.each do |date| %>
@@ -55,25 +55,48 @@ end
        <% end %>
        <% end %>
 
+       <%# Part of/Found in breadcrumb from results %>
+          <% if !props.fetch(:full,false) %>
+       <% if result.resolved_repository %>
+      <div class="result_context">
+	      <span class="found-in"><strong><%= t('context') %>: </strong></span>
+        <span  class="repo_name">
+          <%= link_to result.resolved_repository.fetch('name'),
+                     app_prefix(repository_base_url(
+                      "uri" => result.resolved_repository.fetch('uri'),
+                      "slug" => result.resolved_repository.fetch('slug') {|s| nil })) %>
+        </span>
+
+        <% if result.respond_to?(:ancestors) && result.ancestors %>
+          <% result.ancestors.each do |ancestor| %>
+            <%= t('context_delimiter') %>
+            <span class="ancestor">
+            <% identifier = ancestor.has_key?('id_0') ? (0..3).collect { |i| ancestor["id_#{i}"] }.compact.join('-') : nil %>
+            <% title = process_mixed_content(ancestor.fetch('title', "[#{ ancestor.fetch('level', 'untitled')}]" )).html_safe %>
+            <%= link_to (identifier.blank? ? title : "#{identifier}, #{title}"), app_prefix(ancestor.fetch('uri')) %>
+            </span>
+          <% end %>
+        <% else %>
+          <% unless props.fetch(:no_res, false) || result.resolved_resource.blank? %>
+            <%= t('context_delimiter') %>
+            <span class="resource_name">
+              <%= link_to process_mixed_content(result.resolved_resource.fetch('title')).html_safe, app_prefix(result.resolved_resource.fetch('uri')) %>
+            </span>
+          <% end %>
+        <% end %>
+      </div>
+        <% end %>
+<% end %>
+
+
 <div class="badge-and-identifier">
   <div class="record-type-badge <%= (result.primary_type.start_with?('agent') ? 'agent' : result.primary_type) %>">
     <i class="<%= icon_for_type(result.primary_type) %>"></i>&#160;<%= badge_label %> <% if result.container_summary_for_badge %> &mdash; <%= result.container_summary_for_badge %><% end %>
   </div>
-    <% comp_id = result.identifier %>
+    <% comp_id = display_component_id(result, props.fetch(:infinite_item, false)) %>
   <% unless comp_id.blank? %>
-  <% if result.primary_type == "archival_object" %>
-	  <% rrr = result.resolved_resource %>
-	  <% unless rrr.blank? %>
-	  <% col_id = (0..3).map {|part| result.resolved_resource["id_#{part}"]} %>
-  	  <% accession_number = col_id.reject(&:blank?).join("-") %>
-	<div class="identifier">
-		<span class="id-label">Identifier: <%= accession_number %>-<span class="component"><%= comp_id %></span>
-	</div>
-<% end %>
-<% else %>
     <div class="identifier">
       <span class="id-label"><%= t('search_sorting.identifier') %>:</span>&#160;<span class="component"><%= comp_id %></span>
     </div>
-    <% end %>
   <% end %>
 </div>
