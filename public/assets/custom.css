@@ -406,6 +406,12 @@ ul.breadcrumb{
 	color:#fff;
 	display:inline-block;
 }
+.breadcrumb li:first-child{
+	background-color: rgb(0,54,76);
+}
+.breadcrumb li:first-child:hover{
+	background-color:#f5f5f5;
+}
 .breadcrumb a:hover{
 	text-decoration:none;
 	color:#004f6f;
@@ -869,3 +875,47 @@ div.infinite-item{margin-bottom:10px;background:rgba(245, 245, 245, 0.85);paddin
 	.root .infinite-item-indent-0 dl.dl-horizontal dd{margin-left:20px;}
 }
 .information .badge-and-identifier{font-size:16px;}
+
+.result_context {
+    padding-top: .25em;
+    padding: .25em .5em 0em 1em;
+}
+.result_context .resource-name::before{
+	content: "";
+    font: normal normal normal 14px/1 FontAwesome;
+    margin-right: 0.125rem;
+    display: inline-block;
+    color: #e01919;
+    line-height: 0;
+    padding: 0 0px;
+    padding-left: 5px;
+    }
+.result_context span:nth-child(3)::before{
+	content: "";
+    font: normal normal normal 14px/1 FontAwesome;
+    margin-right: 0.125rem;
+    display: inline-block;
+    color: #e01919;
+    line-height: 0;
+    padding: 0 0px;
+    padding-left: 5px;
+    }
+.result_context .repo_name::before{
+    content: "";
+    font: normal normal normal 14px/1 FontAwesome;
+    margin-right: 0.125rem;
+    display: inline-block;
+    color: #7608b5;
+    line-height: 2;
+    padding: 0 0px;
+    left: 5px;
+    }
+ .result_context strong{
+	    padding-right: .25em;
+    }
+.recordrow div.record-type-badge{
+	padding-left:0em;
+}
+.recordsummary div{
+	padding: .5em 0em;
+}
