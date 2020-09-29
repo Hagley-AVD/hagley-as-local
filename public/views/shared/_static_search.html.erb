@@ -19,12 +19,6 @@
       <%= text_field_tag('q[]', @search[:q][i], :placeholder =>  t('navbar.search_placeholder'), :id => "q#{i}",
             :class=> 'form-control repeats fill-column') %>
     </div>
-    <% if i == 0 %>
-      <div class="limit-field search-limit form-group form-inline norepeat">
-        <%= label_tag(:limit, t('search-limit'),:class => 'sr-only') %>
-        <%= select_tag(:limit, options_for_select(limit_options, @search[:limit]), :class=> 'form-control fill-column') %>
-      </div>
-    <% end %>
     <div class="form-group form-inline search-field">
       <%= label_tag(:"field#{i}", t('search-field'),:class => 'sr-only repeats') %>
       <%= select_tag('field[]', options_for_select(field_options, @search[:field][i]), :id=> "field#{i}", :class=> 'form-control repeats select-field') %>

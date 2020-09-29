@@ -103,6 +103,9 @@ ul#hagley-menu li.menu_last a{
 .panel-footer a:hover{
 	color:#fff;
 }
+.panel-footer p{
+	padding-left:0px;
+}
 .panel-footer>.row{
 	/* border-top:1px solid #fff; */
 }
@@ -263,7 +266,7 @@ div.hagley-vault img{
 }
 div.hagley-vault{
 	max-height:300px;
-	overflow-y:hidden;
+	overflow:hidden;
 }
 .infinite-record-wrapper{
 	height:100%;
@@ -918,4 +921,16 @@ div.infinite-item{margin-bottom:10px;background:rgba(245, 245, 245, 0.85);paddin
 }
 .recordsummary div{
 	padding: .5em 0em;
+}
+.welcome .help-images img{
+	width:100%;
+	max-width:900px;
+	border: 1px solid rgb(0,66,95);
+    	margin-bottom: 1em;
+}
+.welcome p{
+	font-size:1em;
+}
+div.welcome{
+	max-width:950px;
 }
