@@ -228,6 +228,7 @@ div.panel-footer{
 @media(max-width: 800px){
 .search form#advanced_search {
     margin-left: 15px;
+    margin-right: 15px;
     }
 }
 div.root{
@@ -261,18 +262,31 @@ div.hagley-vault p{
 p.feed-item-desc img{
 	max-height:300px;
 	max-width:300px;
+	height:auto;
 }
 div.hagley-vault img{
-	max-height:300px;
+	max-height:25em;
         max-width:100%;
 	width:auto;
+	height:auto;
 }
+div.hagley-vault video{
+	max-width:100%;
+}
+
 .hagley-vault-wrapper{
 	text-align:center;
+	padding:10px 5px 15px 5px;
+	margin:25px;
+	border-radius:15px;
+	background: rgba(240,240,240,0.7);
 }
+.hagley-vault-wrapper h3{margin-top:0px;}
 div.hagley-vault{
-	max-height:300px;
-	max-width:300px
+	max-width:350px;
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
 }
 .infinite-record-wrapper{
 	height:100%;
@@ -478,16 +492,20 @@ padding-left:0px;
 }
 .upper-record-details h3{
 	font-size:1.1rem;
-	margin-bottom:5px;
+	margin-bottom:0px;
+	margin-top: 15px;
 }
-.upper-record-details div.subnote,p, dl.dl-horizontal-fa, div.note-content{
-	padding-left: 35px;
+.upper-record-details div.subnote, dl.dl-horizontal-fa, div.note-content, p.extent, .dates-is-single-date, p.language{
+	padding-left: 25px;
+}
+.dl-horizontal div.subnote{
+	padding-left:0px;
 }
 div.fqt p{
 	padding-left:0;
 }
 dl.dl-horizontal-fa{
-	padding-top: 5px;
+	padding-top: 10px;
 }
 span.title-date{
 	    font-weight: bold;
@@ -605,7 +623,8 @@ form#advanced_search{
 		display:none;
 	}
 	div.search-wrapper{
-		margin-top:50px;
+		/* margin-top:50px; */
+		margin-top: 140px;
 	}
 	div.logo-wrapper {
 		clear:both;
@@ -771,6 +790,9 @@ form#advanced_search{
 
 .feed-container .infinite-tree-view .expandme {
   visibility: hidden
+}
+.feed-container .result_context{
+	display:none;
 }
 
 .infinite-record-context.fixed {
@@ -958,3 +980,197 @@ div.welcome{
 img{
 	image-rendering:-webkit-optimize-contrast;
 }
+
+/* Announcement */
+/* div.announcement:after{
+        content:"Notice: Currently, the library is taking research appointments for funded scholars only. Researchers from the general public are being placed on a waiting list. We have not yet determined a date for expanding our public services, so please continue to check our website for updates.";
+} */
+
+/* Help Page */
+
+.help{margin-left:auto;margin-right:auto;}
+.help h1{text-align:center;font-size:2rem;}
+.help h2{text-align:center;}
+.help p,.help li{font-size:16px;max-width:864px;margin:0 auto;line-height:1.7em}
+.help p{margin-top:10px;}
+#help-menu{text-align:center;}
+#help-menu li{max-width:none;}
+.help img{max-width:100%;padding:5px 0px;overflow:hidden;}
+.help a{font-weight:700;}
+.help .fa-home{color:rgb(118, 8, 181);}
+.help .fa-archive{color:rgb(224, 25, 25);}
+.help .fa-user{color:#3b52ff;}
+.help .fa-users{color:#3b52ff;}
+.help .fa-university{color:#3b52ff;}
+.help .fa-tag{color:#941c9a;}
+.help .fa-file-o{color:#457141;}
+
+/* Mobile */
+@media(max-width: 415px){
+/*	.breadcrumb li:before {margin-left:20px;}*/
+	.breadcrumb li:before{left:0px;}
+	ul.breadcrumb{padding:0px;}
+	.breadcrumb{display:block;}
+	.breadcrumb li{height:auto;font-size:1em;float:none;padding-left:10px;}
+	.resources .information h1 {font-size:1.4em;}
+	.nav-pills>li+li {margin:0px;}
+	.container-fluid{padding-left:10px;padding-right:10px;}
+	.upper-record-details div.subnote, p, dl.dl-horizontal-fa, div.note-content {padding-left:20px;}
+	#content{margin: 0 1.275rem;}
+	.breadcrumb li:last-child {padding-right:0px;}
+	.breadcrumb li{float:none;}
+	#sidebar{margin-top:2em;}
+	div.search{margin-top:1em;}
+}
+/* Request modal */
+div#request-wrapper{
+	text-align:center;
+}
+#request p{padding: 0px 5px;}
+.modal-footer #request_btn{display:none;}
+/* Digital */
+.thumbnail{
+	margin-bottom: 0px;
+}
+div.images a.thumbnail{
+	margin-bottom:0px;
+}
+div.images div.objectimage{
+	margin: 1.5em .5em 0 1.5em;
+	width: 35%;
+}
+/*sidebar headers*/
+#sidebar-resource-header{text-align:center;}
+#sidebar-resource-header h2{margin:0;margin-bottom:-10px;}
+#sidebar-object-header{text-align:center;}
+#sidebar-object-header h2{margin:0;margin-bottom:-10px;}
+/*hide finding aid and admin info */
+#fa dl.dl-horizontal-fa dt:nth-child(3){display:none;}
+#fa dl.dl-horizontal-fa dd:nth-child(4){display:none;}
+/* Resource inners */
+.physloc div.note-content, .physdesc div.note-content, .abstract div.note-content, p.extent, ul.dates-is-single-date, .upper-record-details ul.agents_list{
+	margin-top: 10px;
+}
+/* Additional info */
+#subj_list ul.subjects_list, #agent_list ul.agents_list{
+	margin-top: 10px;
+}
+/* Tooltips */
+#tabs ul.nav-pills li:nth-child(2)::after{
+    background-color: transparent;
+    border-radius: 10px;
+    color: transparent;
+    padding: 10px 15px;
+    position: absolute;
+    text-align: center;
+    z-index: 999;
+    content: 'Show collection contents';
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, calc(-100% - 10px));
+    transition: all .35s ease-in-out;
+    width:max-content;
+}
+#tabs ul.nav-pills li:nth-child(3)::after{
+    background-color: transparent;
+    border-radius: 10px;
+    color: transparent;
+    padding: 10px 15px;
+    position: absolute;
+    text-align: center;
+    z-index: 999;
+    content: 'List collection boxes';
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, calc(-100% - 10px));
+    transition: all .35s ease-in-out;
+    width:max-content;
+}
+#tabs ul.nav-pills li:nth-child(2):hover::after, #tabs ul.nav-pills li:nth-child(3):hover::after{
+display:block;
+transition-delay: .35s;
+color:#fff;
+background-color:#1f1f1f;
+}
+#tabs ul.nav-pills li:nth-child(2)::before, #tabs ul.nav-pills li:nth-child(3)::before{
+    background-color: transparent;
+    content: ' ';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    z-index: 999;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, calc(-100% - 5px)) rotate(45deg);
+    transition: all .35s ease-in-out;
+}
+#tabs ul.nav-pills li:nth-child(2):hover::before, #tabs ul.nav-pills li:nth-child(3):hover::before{
+display:block;
+transition-delay: .35s;
+background-color: #1f1f1f;
+}
+#tabs ul.nav-pills li:nth-child(2), #tabs ul.nav-pills li:nth-child(3){
+}
+#tabs ul.nav-pills li.disabled::after, #tabs ul.nav-pills li.disabled::before, #tabs ul.nav-pills li.disabled:hover::before, #tabs ul.nav-pills li.disabled:hover::after{display:none;}
+/* nav update */
+.navbar .top-bar{border-bottom-style:dotted;}
+@media (min-width: 768px){
+.modal-dialog {
+    width: 720px;}
+    }
+
+/* Banner Library Alerts */
+#library-alert{
+    text-align: center;
+    padding: 0;
+    border: 0px;
+    border-radius: 0;
+    margin: 0 0 5px 0;
+    font-size: 110%;
+    height:auto;
+    max-height:unset;
+}
+#header div#library-alert{
+	height:auto;
+	max-height:unset;
+}
+div.library-alert-inner{
+	padding:10px;
+}
+.library-alert-inner a{
+	font-weight: 600;
+}
+#library-alert button{
+	position:inherit;
+	display: inline-block;
+}
+span#library-alert-text{
+	max-width:90%;
+	display:inline-block;
+}
+/*Banner Library Alert Mobile*/
+#navigation div#library-alert-mobile{display:none;}
+@media(max-width:768px){
+	#navigation div#library-alert-mobile{
+		display:block;
+		margin:0;}
+	#library-alert-mobile{
+    text-align: center;
+    padding: 0;
+    border: 0px;
+    border-radius: 0;
+    margin: 0 0 5px 0;
+    font-size: 110%;
+    height:auto;
+    max-height:unset;
+} 
+div#library-alert-mobile{
+        height:auto;
+        max-height:unset;
+}
+#library-alert-mobile button{
+        position:inherit;
+        display: inline-block;
+}
+
+	}

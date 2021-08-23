@@ -1,0 +1,14 @@
+<% hdig = @hdig %>
+<div class="images">
+        <div class="objectimage">
+          <div class="panel panel-default">
+            <a class="thumbnail" href="<%= hdig['out'] %>" target="new">
+              <img src="<%= hdig['thumb'] %>" alt="<%= strip_mixed_content(hdig['caption']) %>" />
+            </a>
+                  <div class="panel-heading">
+                    <%= hdig['caption']%>
+                  </div>
+          </div>
+        </div>
+</div>
+
