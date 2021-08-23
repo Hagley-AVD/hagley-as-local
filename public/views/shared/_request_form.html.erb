@@ -1,34 +1,23 @@
 <%= form_tag(app_prefix("fill_request"), method: 'post', :id => 'request_form') do %>
-  <%= render partial: 'shared/request_hiddens' %>
-  <div  id="request">
-    <div class="form-group required ">
-      <%= label_tag(:user_name, "#{t('request.user_name')} #{t('request.required')}" ,  :class => 'sr-only') %>
-      <div class="input-group">
-        <%= text_field_tag :user_name, nil, :placeholder => t('request.user_name'), :class => "form-control"%>
-        <div class="input-group-addon">
-          <span class="required aria-hidden"><%= t('request.required') %></span>
-        </div>
-      </div>
-    </div>
-    <div class="form-group required ">
-      <%= label_tag(:user_email, "#{t('request.user_email')} #{t('request.required')}",  :class => 'sr-only') %>
-      <div class="input-group">
-        <%= text_field_tag :user_email, nil, :type => 'email', :placeholder => t('request.user_email'), :class => 'form-control' %>
-        <div class="input-group-addon">
-          <span class="required aria-hidden"><%= t('request.required') %></span>
-        </div>
-      </div>
-    </div>
-    <div class="form-group ">
-      <%= label_tag(:note, t('request.note'),  :class => 'sr-only') %>
-      <%= text_area_tag :note, nil, :rows=> "3", :cols => "25", :placeholder => t('request.note'), :class => 'form-control' %>
-    </div>
-    <div class="form-group honeypot">
-      <span class="aria-hidden">
-        <%= label_tag :comment %>
-        <%= text_field_tag :comment, nil, tabindex: '-1', :class => 'form-control'%>
-      </span>
-    </div>
-    <button type="submit" class="btn btn-primary action-btn noscript"><%= t('request.submit') %></button>
+	<%= render partial: 'shared/request_hiddens' %>
+   <% coltitle = @result.resolved_resource 
+      col_id = (0..3).map {|part| @result.resolved_resource["id_#{part}"]} 
+      accession_number = col_id.reject(&:blank?).join("-") 
+      cont_sumbadge = @result.container_summary_for_badge
+      arnotes = @result.notes
+      arcontent = arnotes.dig('accessrestrict',0,'subnotes',0,'content') %>
+
+  <div id="request">
+	  <p>Physical access to archival collections are limited to the grounds of Hagley Museum and Library. For more information and to plan a visit, please see <a href="https://www.hagley.org/research/collections/researcher-services" target="_blank">researcher services</a>.</p>
+	  <hr/><p><strong>IMPORTANT:</strong> Prior to requesting material, please review listed <strong>access restrictions</strong>.</p><% unless arcontent.blank? %><p><strong>This Item:</strong></p><p><%= arcontent %></p><% end %><hr/>
+	  <p>To request material from the archives, provide us: </p><ul><li><strong>Collection Title(s)</strong></li><li><strong>Accession Number(s) or Identifier(s)</strong></li> and, if applicable, <li><strong>Box or Container Number(s)</strong></li></ul><p>This will greatly assist us in delivering the requested material to the reading room.</p>
+	  <p><strong>This Item:</strong></p>
+	  <ul><li><%= coltitle['title'] %></li><li><%= accession_number %></li><% if cont_sumbadge.blank? %><li>If available, search or browse within the collection to locate desired material with box or container numbers. Not all collections are housed in multiple containers.</li><% else %><li><%= cont_sumbadge %></li><% end %></ul>
+	  <p>Include this information on the <a href="https://www.hagley.org/research/collections/researcher-services/archival-material-request" target="_blank"><strong>provided form</strong></a> or in an email to <a href="mailto:callslip@hagley.org?subject=Request for archival material"><strong>callslip@hagley.org</strong></a>. To request multiple boxes or items, please list the collection, accession, and box numbers within the form or email message. If you need multiple boxes from one collection, list the collection and accession number once, then list the box numbers. Please refrain from sending individual requests for each box.</p><p> Material can also be requested from the <a href="http://h92010.eos-intl.net/H92010/OPAC/Index.aspx" target="_blank"><strong>catalog</strong></a>. Please note that we are a non-circulating library. Books and other publications may be viewed inside the reading rooms.</p>
+	  <div id="request-wrapper">
+		  <a href="https://www.hagley.org/research/collections/researcher-services/archival-material-request?coll_title=<%= coltitle['title'] %>&accn=<%= accession_number %><% unless cont_sumbadge.blank? %>&box=<%= cont_sumbadge %><% end %>" target="_blank"  class="btn page_action request btn-default" title="Request">
+        <i class="fa fa-external-link fa-external-link-alt fa-3x"></i><br>Request
+      </a>
+	  </div>
   </div>
 <% end %>

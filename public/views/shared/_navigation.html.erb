@@ -1,4 +1,12 @@
 <section id="navigation">
+	        <% Excon.defaults[:ciphers] = 'DEFAULT'
+                         alert_response = Excon.get('https://raw.githubusercontent.com/Hagley-AVD/alerts/main/library-alert')
+unless alert_response.status != 200
+ alert_text = alert_response.body.to_s
+ unless alert_text.include? "no alert" %>
+ <div class="row alert alert-info alert-dismissible announcement" id="library-alert-mobile"><div class="library-alert-inner"><span id="library-alert-text"><%= sanitize alert_response.body %></span></div></div>
+ <%  end
+ end %>
   <nav class="navbar navbar-default" aria-label="top-level navigation">
     <div class="container-fluid navbar-header top-bar">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu"

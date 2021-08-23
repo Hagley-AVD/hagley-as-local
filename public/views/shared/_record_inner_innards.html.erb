@@ -1,12 +1,13 @@
 <!-- Look for '_inherited' and '*_inherited' properties -->
-<% non_folder = %w(summary physdesc bioghist arrangement physloc originalsloc phystech altformavail) %>
+<% non_folder = %w(bioghist scopecontent physdesc arrangement physloc originalsloc phystech altformavail) %>
 <% folder = %w(accessrestrict userestrict arrangement phystech otherfindaid custodhist acqinfo appraisal accruals extent relatedmaterial separatedmaterial note_bibliography materialspec inscription physfacet dimensions edition fileplan legalstatus odd note processinfo note_index) %>
 <div class="upper-record-details">
 	<% coltitle = @result.resolved_resource %>
 	<% col_id = (0..3).map {|part| @result.resolved_resource["id_#{part}"]} %>
 	<% accession_number = col_id.reject(&:blank?).join("-") %>
 	<div class="coltitle"><h3>Part of: <a href="<%= @result.resource_uri %>" title="Link to <%= coltitle['title'] %>"><%= coltitle['title'] %> (<%= accession_number %>)</a></h3></div>
-	    <% over = @result.note('scopecontent') %>
+
+	    <% over = @result.note('summary') %>
     <% if over.blank?
        over = @result.note('abstract')
        non_folder.shift # remove abstract from in-folder notes
