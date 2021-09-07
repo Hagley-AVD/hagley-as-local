@@ -35,11 +35,11 @@
         request.responseType = 'json';
         request.send();
         request.onload = function() {
-            document.getElementById("hagleyvault-title").href = 'https://hagley.org/node/' + request.response.nodes[0].node.Nid;
-            document.getElementById("hagleyvault-img").href = 'https://hagley.org/node/' + request.response.nodes[0].node.Nid;
+            document.getElementById("hagleyvault-title").href = 'https://www.hagley.org/node/' + request.response.nodes[0].node.Nid;
+            document.getElementById("hagleyvault-img").href = 'https://www.hagley.org/node/' + request.response.nodes[0].node.Nid;
 
             if (request.response.nodes[0].node.videosrc != "novideofound"){
-                document.getElementById("hagley-vault").innerHTML = '<video controls><source src="https://hagley.org/sites/default/files/' + request.response.nodes[0].node.videosrc + '"/></video>';
+                document.getElementById("hagley-vault").innerHTML = '<video controls><source src="https://www.hagley.org/sites/default/files/' + request.response.nodes[0].node.videosrc + '"/></video>';
             }
             else{
                 document.getElementById("hagley-vault").innerHTML = '<img src="' + request.response.nodes[0].node.field_vault_image.src + '"/>';
