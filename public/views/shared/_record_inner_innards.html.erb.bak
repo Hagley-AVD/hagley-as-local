@@ -1,7 +1,13 @@
 <!-- Look for '_inherited' and '*_inherited' properties -->
-<% non_folder = %w(extent physdesc bioghist arrangement scopecontent physloc originalsloc altformavail accessrestrict userestrict relatedmaterial) %>
-<% folder = %w(phystech otherfindaid custodhist acqinfo appraisal accruals separatedmaterial note_bibliography materialspec inscription physfacet dimensions edition fileplan legalstatus odd note processinfo note_index) %>
+<% non_folder = %w(bioghist scopecontent physdesc arrangement physloc originalsloc phystech altformavail) %>
+<% folder = %w(accessrestrict userestrict arrangement phystech otherfindaid custodhist acqinfo appraisal accruals extent relatedmaterial separatedmaterial note_bibliography materialspec inscription physfacet dimensions edition fileplan legalstatus odd note processinfo note_index) %>
 <div class="upper-record-details">
+  <% coltitle = @result.resolved_resource
+    blerg = @result.notes %>
+	<% col_id = (0..3).map {|part| @result.resolved_resource["id_#{part}"]} %>
+	<% accession_number = col_id.reject(&:blank?).join("-") %>
+	<div class="coltitle"><h3>Part of: <a href="<%= @result.resource_uri %>" title="Link to <%= coltitle['title'] %>"><%= coltitle['title'] %> (<%= accession_number %>)</a></h3></div>
+
 	    <% over = @result.note('summary') %>
     <% if over.blank?
        over = @result.note('abstract')
@@ -12,7 +18,7 @@
       <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => over} %>
     <% end %>
 
-            <% unless @result.dates.blank? %>
+        <% unless @result.dates.blank? %>
       <h3><%= t('resource._public.dates') %></h3>
       <%= render partial: 'shared/dates', locals: {:dates => @result.dates} %>
     <% end %>
@@ -24,15 +30,6 @@
       <% end %>
     <% end %>
 
-        <% unless @result.extents.blank? %>
-      <h3><%= t('resource._public.extent') %></h3>
-       <% @result.extents.each do |ext| %>
-        <p class="extent"><%= inheritance(ext['_inherited']).html_safe %>
-          <%= ext['display']%>
-        </p>
-      <% end %>
-    <% end %>
-
     <% non_folder.each do |type| %>
       <% (@result.notes[type] || []).each do |note_struct| %>
        <% unless note_struct['note_text'].blank? %>
@@ -41,14 +38,17 @@
       <% end %>
     <% end %>
 
-        <% unless @result.notes.include?('langmaterial') || @result.lang_materials.blank? %>
-      <h3><%= t('resource._public.lang') %></h3>
-       <% @result.lang_materials.each do |lang_material| %>
-        <p class="language"><%= inheritance(lang_material['_inherited']).html_safe %>
-          <%= t('enumerations.language_iso639_2.' + lang_material['language'])%>
-        </p>
-      <% end %>
-    <% end %>
+            <% unless @result.container_titles_and_uris.blank? %>
+           <% x = render partial: 'shared/present_list', locals: {:list =>  @result.container_titles_and_uris, :list_clss => 'top_containers'} %>
+         <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('containers'), :p_id => 'cont_list',
+         :p_body => x} %>
+	<% end %>
+
+	        <% unless @result.linked_digital_objects.blank? %>
+                <% x = render partial: 'resources/linked_digital_objects', locals: {:digital_objects => @result.linked_digital_objects} %>
+                <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('linked_digital_objects'), :p_id => 'linked_digital_objects_list', :p_body => x} %>
+        <% end %>
+
 
     <% if @result.is_a?(Accession) && @result.inventory %>
       <h3><%= t('accession._public.section.inventory') %></h3>
@@ -60,7 +60,26 @@
     <% end %>
 
     <hr/>
+    <div><%= blerg %> </div>
 	    <h2>Additional Information</h2>
+	            <% unless @result.extents.blank? %>
+      <h3><%= t('resource._public.extent') %></h3>
+       <% @result.extents.each do |ext| %>
+        <p class="extent"><%= inheritance(ext['_inherited']).html_safe %>
+          <%= ext['display']%>
+        </p>
+      <% end %>
+    <% end %>
+            <% unless @result.notes.include?('langmaterial') || @result.lang_materials.blank? %>
+      <h3><%= t('resource._public.lang') %></h3>
+       <% @result.lang_materials.each do |lang_material| %>
+        <p class="language"><%= inheritance(lang_material['_inherited']).html_safe %>
+          <%= t('enumerations.language_iso639_2.' + lang_material['language'])%>
+        </p>
+      <% end %>
+    <% end %>
+
+
         <% x = render partial: 'shared/multi_notes', locals: {:types => folder} %>
         <% unless x.blank? %>
         <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.additional'),
@@ -85,10 +104,6 @@
            <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('pui_agent.related'),
 								  :p_id => 'agent_list', :p_body => x} %>
         <% end %>
-        <% unless @result.linked_digital_objects.blank? %>
-                <% x = render partial: 'resources/linked_digital_objects', locals: {:digital_objects => @result.linked_digital_objects} %>
-                <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('linked_digital_objects'), :p_id => 'linked_digital_objects_list', :p_body => x} %>
-        <% end %>
         <% if @result.kind_of?(Resource) && !@result.finding_aid.blank? %>
           <% x= render partial: 'resources/finding_aid' %>
           <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.finding_aid.head'),
@@ -99,11 +114,6 @@
           <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('related_accessions'), :p_id => 'related_accessions_list', :p_body => x} %>
         <% end %>
 
-        <% unless @result.container_titles_and_uris.blank? %>
-           <% x = render partial: 'shared/present_list', locals: {:list =>  @result.container_titles_and_uris, :list_clss => 'top_containers'} %>
-         <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('containers'), :p_id => 'cont_list',
-         :p_body => x} %>
-        <% end %>
   <% if @result.kind_of?(DigitalObject) && !@result.linked_instances.blank? %>
     <% x = render partial: 'digital_objects/linked_instances', locals: {:instances => @result.linked_instances} %>
     <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('linked_instances'), :p_id => 'linked_instances_list', :p_body => x} %>
