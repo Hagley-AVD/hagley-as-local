@@ -19,6 +19,7 @@
       <%= text_field_tag('q[]', @search[:q][i], :placeholder =>  t('navbar.search_placeholder'), :id => "q#{i}",
             :class=> 'form-control repeats fill-column') %>
     </div>
+    <div id="submit_div" class="norepeat form-group form-inline"><%= submit_tag(t('search-button.label'), :class=>'btn btn-primary norepeat', :id => 'submit_search') %></div>
     <div class="form-group form-inline search-field">
       <%= label_tag(:"field#{i}", t('search-field'),:class => 'sr-only repeats') %>
       <%= select_tag('field[]', options_for_select(field_options, @search[:field][i]), :id=> "field#{i}", :class=> 'form-control repeats select-field') %>
@@ -34,8 +35,6 @@
       <%= text_field_tag('to_year[]', @search[:to_year][i], :size => 4, :maxlength => 4, :id => "to_year#{i}",
 			 :class=> 'form-control repeats', :placeholder => t('search_results.filter.to')) %></div>
 	 <div class="form-group form-inline pmwrap"><span class="plusminus"></span></div>
-       <div id="submit_div" class="norepeat form-group form-inline"><%= submit_tag(t('search-button.label'), :class=>'btn btn-primary norepeat', :id => 'submit_search') %></div>
-
     </div>
     <% end %>
 	 <% end %>
