@@ -10,7 +10,7 @@
 	    <% over = @result.note('summary') %>
     <% if over.blank?
        over = @result.note('abstract')
-       folder.shift # remove abstract from in-folder notes
+        # remove abstract from in-folder notes
 
     end %>
     <% unless over.blank? %>
