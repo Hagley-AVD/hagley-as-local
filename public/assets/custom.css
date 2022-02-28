@@ -315,7 +315,7 @@ ul.breadcrumb{
   position: relative;
   height: 40px;
   line-height: 40px;
-  padding: 0 10px 0 0;
+  padding: 0 10px 0 5px;
   text-align: center;
   margin-right: 23px;
   margin-top:5px;
@@ -382,7 +382,7 @@ ul.breadcrumb{
   position: absolute;
   top: 0;
   border: 0 solid rgb(0,89,126);
-  border-width: 20px 10px;
+  border-width: 20px 11px;
   width: 0;
   height: 0;
 }
