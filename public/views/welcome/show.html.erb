@@ -1,0 +1,100 @@
+<%  # count the collections #
+    num_collection = []
+    @fa_counts.each do |repo,collection| 
+        collection.each do |pui_collection,v| 
+         num_collection.push(v)
+         end 
+      end 
+    fa_total = num_collection.sum %>
+<div class="row">
+  <div class="col-sm-8 welcome">
+    <h2><%= t('brand.welcome_head') %></h2>
+      <div> <%= t('brand.welcome_message', :fa_total => fa_total).html_safe %> </div>
+    <h2>Using the database</h2>
+    <div>
+	    <p>Start with Keyword searching. </p>
+	    <p>For phrase searching, use quotes around your search terms. For example "Defense Audiovisual Agency".</p>
+	    <p>Take note of the following throughout the site: </p>
+	    <div class="help-images">
+        <div class="bc-search">
+        <div class="result_context">
+	      <span class="found-in"><strong>Found in: </strong></span>
+        <span class="repo_name">
+          <a href="/repositories/2" onclick="return noGo()">Audiovisual Collections</a>
+        </span>
+
+            /
+            <span class="ancestor">
+            <a href="/repositories/2/resources/807" onclick="return noGo()">2018-201, Culley family collection of Cinecraft Productions audiovisual materials</a>
+            </span>
+            /
+            <span class="ancestor">
+            <a href="/repositories/2/archival_objects/121734" onclick="return noGo()">Company and personnel history</a>
+            </span>
+        </div>
+        </div>
+        <div class="bc-object">
+              <ul class="breadcrumb">
+	<li>
+	  <span class="record-type-badge repository" aria-hidden="true">       <i class="fa fa-home"></i>     </span>
+	    <a href="/repositories/2" onclick="return noGo()">
+		Audiovisual Collections
+	    </a>
+	</li>
+	<li>
+	  <span class="record-type-badge resource" aria-hidden="true">       <i class="fa fa-archive"></i>     </span>
+	    <a href="/repositories/2/resources/807" onclick="return noGo()">
+		Culley family collection of Cinecraft Productions audiovisual materials (2018-201)
+	    </a>
+	</li>
+	<li>
+	  <span class="record-type-badge archival_object" aria-hidden="true">       <i class="fa fa-file-o"></i>     </span>
+	    <a href="/repositories/2/archival_objects/121734" onclick="return noGo()">
+		Company and personnel history, 1939-2016
+	    </a>
+	</li>
+	<li>
+	  <span class="record-type-badge archival_object" aria-hidden="true">       <i class="fa fa-file-o"></i>     </span>
+	    Best Commercials on TV, 1954
+	</li>
+      </ul>
+        </div>
+	    </div>
+      <script>function noGo(){return false}</script>
+	    <p>The breadcrumbs depicted above allow you to click on futher description and details about your search results.</p>
+	    <p>To request or cite material in this database, please use the <strong>collection title</strong>>, <strong>accession number</strong>, and <strong>box number</strong>.
+    </div>
+    <div>
+	    <h2>Additional Information</h2>
+	    <p>To search our published collection, please see our <strong><a href="http://h92010.eos-intl.net/H92010/OPAC/Index.aspx" target="_blank" title="Public Access Catalog">public access catalog</a></strong>.</p>
+	    <p>For the most comprehensive view of our research materials, please consult with our reference archivists by sending an email to <strong><a href="mailto:askhagley@hagley.org" target="_blank" title="askhagley@hagley.org">askhagley@hagley.org</a></strong>.</p>
+    </div>
+    </div>
+  <div class="col-sm-4">
+	            <div class="hagley-vault-wrapper">
+                  <h3><a href="" id="hagleyvault-title" data-extlink="" target="_blank" rel="noopener noreferrer">TODAY IN THE HAGLEY VAULT</a></h3>
+    <a href="" id="hagleyvault-img" data-extlink="" target="_blank" rel="noopener noreferrer" title="Today in the Hagley Vault">
+        <div class="hagley-vault" id="hagley-vault"></div></a>
+          </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+
+        let requestURL = 'https://www.hagley.org/research/news/hagley-vault/feed';
+        let request = new XMLHttpRequest();
+        request.open('GET', requestURL);
+        request.responseType = 'json';
+        request.send();
+        request.onload = function() {
+            document.getElementById("hagleyvault-title").href = 'https://www.hagley.org/node/' + request.response.nodes[0].node.Nid;
+            document.getElementById("hagleyvault-img").href = 'https://www.hagley.org/node/' + request.response.nodes[0].node.Nid;
+
+            if (request.response.nodes[0].node.videosrc != "novideofound"){
+                document.getElementById("hagley-vault").innerHTML = '<video controls><source src="https://www.hagley.org/sites/default/files/' + request.response.nodes[0].node.videosrc + '"/></video>';
+            }
+            else{
+                document.getElementById("hagley-vault").innerHTML = '<img src="' + request.response.nodes[0].node.field_vault_image.src + '"/>';
+            }
+}
+        </script>
+          </div>
+</div>

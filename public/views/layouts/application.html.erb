@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="<%= AppConfig[:locale] %>">
+<head>
+	<%# mdc: new stuff, to address IE 10 and earlier issues with Bootstrap %>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link href="<%= asset_path('images/hagley_fav.png') %>" rel="shortcut icon" type="image/x-icon" />
+	<title><%=  (@page_title.blank? ? '' : "#{strip_mixed_content(@page_title)} | ") %><%= t('brand.title') %></title>
+	<%= csrf_meta_tags %>
+
+	<%# block cross-origin refer per https://go-to-hellman.blogspot.com/2015/06/protect-reader-privacy-with-referrer.html %>
+	<% if AppConfig[:pui_block_referrer] %>
+		<meta name="referrer" content="origin-when-cross-origin" />
+	<% end %>
+
+	<script>
+	 var APP_PATH = '<%= PrefixHelper.app_prefix("") %>';
+	</script>
+<link rel="stylesheet preload prefetch" as="style" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="preload prefetch" as="font" type="font/woff2" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2" crossorigin />
+	<%= stylesheet_link_tag    'application', media: 'all' %>
+	<%= javascript_include_tag 'application' %>
+
+
+	<% ASUtils.find_local_directories('public/views/layout_head.html.erb').each do |template| %>
+		<% if File.exists?(template) %>
+			<!-- Begin plugin layout -->
+			<%= render :file => template %>
+			<!-- End plugin layout -->
+		<% end %>
+	<% end %>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+	<%= render partial: 'shared/skipnav' %>
+	<%= render partial: 'shared/library_alert' %>
+	<div class="container-fluid no-pad">
+		<%= render partial: 'shared/header' %>
+		<%= render partial: 'shared/static_search', locals: {
+      :search_url => "/search",
+      :title => t('archive._plural'),
+      :limit_options =>  [["#{t('actions.search')} #{t('search-limits.all')}",''],
+            [t('search-limit', :limit => t('search-limits.resources')),'resource']],
+
+      :field_options => [
+            ["#{t('search_results.filter.fullrecord')}",''],
+            ["#{t('search_results.filter.title')}",'title'],
+            ["#{t('search_results.filter.creators')}",'creators_text'],
+            ["#{t('search_results.filter.subjects')}",'subjects_text'],
+            ["#{t('search_results.filter.notes')}", 'notes'],
+            ["#{t('search_results.filter.identifier')}", 'identifier']
+           ]
+    }  %>
+		<%= render partial: 'shared/navigation' %>
+	</div>
+
+	<section id="content" class="container-fluid">
+		<a name="maincontent" id="maincontent"></a>
+		<%= flash_messages %>
+		<%= yield %>
+	</section>
+	<div class="back-to-top" alt="Back to top"></div>
+	<script  type="text/javascript" >
+		$(".upper-record-details .note-content").each(function(index, element){$(this).readmore(<%= AppConfig[:pui_readmore_max_characters] %>)});
+		var $backToTop = $(".back-to-top");
+		$backToTop.hide();
+		$(window).on('scroll', function() {
+  			if ($(this).scrollTop() > 900) {
+    		$backToTop.fadeIn();
+  			} else {
+    		$backToTop.fadeOut();
+  			}
+			});
+			$backToTop.on('click', function(e) {
+  			$("html, body").animate({scrollTop: 0}, 500);
+		});
+	</script>
+
+	<%= render partial: 'shared/footer' %>
+
+	<% if AppConfig[:pui_enable_staff_link] %>
+		<% if AppConfig.has_key?(:frontend_proxy_url) && defined?(@result) && @result.respond_to?(:uri) %>
+			<script>
+				FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
+				RECORD_URI = "<%= j(@result.uri) %>";
+				STAFF_LINK_MODE = "<%= j(AppConfig[:pui_staff_link_mode]) %>";
+			</script>
+		<% end %>
+	<% end %>
+</body>
+</html>

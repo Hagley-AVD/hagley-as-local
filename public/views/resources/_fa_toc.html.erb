@@ -1,0 +1,19 @@
+<% notes = %w{bioghist scopecontent arrangement relatedmaterial separatedmaterial} %>
+
+<div class="toc-wrap col-sm-4 col-xs-12">
+  <ul class="toc">
+  <li><a href="#summary">Summary</a></li>
+    <% notes.each do |type| %>
+      <% unless @result.note(type).blank? %>
+        <% note_struct = @result.note(type) %>
+        <li><a href="#fa_view_<%= type %>"><%= note_struct['label'] %></a></li>
+  <% end %>
+<% end %>
+<% unless @result.subjects.blank? %>
+  <li><a href="#subj_list">Access Points</a></li>
+<% end %>
+<li><a href="#inventory">Series Descriptions and Inventory</a></li>
+<li class="toc-sdi-wrapper"><ul class="toc-sdi"></ul>
+    </li>
+  </ul>
+</div>

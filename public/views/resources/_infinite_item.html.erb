@@ -1,0 +1,187 @@
+<%
+  indent_level = @result.raw.fetch('ancestors', []).length
+%>
+<% if indent_level == 0 %>
+  <div class="infinite-item infinite-item-indent-<%= indent_level %> col-sm-8 col-xs-12">
+  <div id="summary">
+    <%= render partial: 'resources/finding_aid', locals: {:notitle => true} %>
+    <dl class="dl-horizontal-fa">
+          <% unless @result.dates.blank? || all_inherited?(@result.dates) %>
+        <dt><%= t('resource._public.dates') %>:</dt>
+        <dd>
+        <% @result.dates.each do |date| %>
+          <%= inheritance(date['_inherited']).html_safe %>
+          <%= date['final_expression'] %>
+                  <% end %>
+        </dd>
+    <% end %>
+      <% if @result.agents && Array(@result.agents['creator']).length > 0 %>
+              <%= render partial: 'shared/agents_list_fa', locals: {:list => {'creator' => @result.agents['creator']}} %>
+    <% end %>
+      <% unless @result.extents.blank? || all_inherited?(@result.extents) %>
+        <dt><%= t('resource._public.extent') %>:</dt>
+        <% @result.extents.each do |extent| %>
+          <dd>
+            <%= inheritance(extent['_inherited']).html_safe %>
+            <%= extent['display']%>
+          </dd>
+        <% end %>
+    <% end %>
+    <% physdesc_note = @result.note('physdesc') %>
+    <% unless @result.notes['physdesc'].blank? %>
+      <dt><%= t('resource._public.physdesc') %>:</dt>
+      <dd><%= render partial: 'shared/single_note', locals: {:type => 'physdesc', :note_struct => physdesc_note, :notitle => true} %></dd>
+  <% end %>
+      <% if @result.lang_materials %>
+      <% @result.lang_materials.reject { |lm| inherited?(lm) }.each do |lang_material| %>
+        <dt><%= t('resource._public.lang')%>:</dt>
+        <dd><%= t('enumerations.language_iso639_2.' + lang_material['language']) %></dd>
+        <% unless lang_material['script'].blank? %>
+          <dt><%= t('resource._public.script')%>:</dt>
+          <dd><%= t('enumerations.script_iso15924.' + lang_material['script']) %></dd>
+        <% end %>
+      <% end %>
+    <% else %>
+      <% langmaterial_note = @result.note('langmaterial') %>
+      <% if langmaterial_note && !langmaterial_note['note_text'].blank? && !inherited?(langmaterial_note) %>
+        <dt><%= t('resource._public.lang')%>:</dt>
+        <dd>
+          <%= render partial: 'shared/single_note', locals: {:type => 'langmaterial', :note_struct => langmaterial_note, :notitle => false} %>
+        </dd>
+      <% end %>
+    <% end %>
+
+  <% unless @result.resolved_repository.blank? %>
+    <dt><%= t('repository._singular') %>:</dt>
+    <dd><%= @result.resolved_repository['parent_institution_name'] %>, <%=  @result.resolved_repository['name'] %></p></dd>
+  <% end %>
+  <% abstract_note = @result.note('abstract') %>
+  <% unless abstract_note.blank? %>
+    <dt><%= t('resource._public.abstract') %>:</dt>
+    <dd><%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => abstract_note, :notitle => true} %></dd>
+  <% end %>
+  <hr/>
+      <% altform_note = @result.note('altformavail') %>
+    <% unless @result.notes['altformavail'].blank? %>
+      <dt><%= t('enumerations._note_types.altformavail') %>:</dt>
+      <dd><%= render partial: 'shared/single_note', locals: {:type => 'altformavail', :note_struct => altform_note, :notitle => true} %></dd>
+  <% end %>
+      <% accessrestrict_note = @result.note('accessrestrict') %>
+    <% if accessrestrict_note && !accessrestrict_note['note_text'].blank? && !inherited?(accessrestrict_note) %>
+      <dt><%= accessrestrict_note['label'] %>:</dt>
+      <dd>
+        <%= render partial: 'shared/single_note', locals: {:type => 'accessrestrict', :note_struct => accessrestrict_note, :notitle => true} %>
+      </dd>
+    <% end %>
+    </dl>
+    </div>
+    <hr/>
+    <dl class="dl-vertical">
+  <% bioghist_note = @result.note('bioghist') %>
+  <% if bioghist_note && !inherited?(bioghist_note) %>
+    <%= render partial: 'shared/single_note', locals: {:type => 'bioghist', :note_struct => bioghist_note, :notitle => false, :heading_size => 'dt', :fa_view => true } %>
+  <% end %>
+    <% scopecontent_note = @result.note('scopecontent') %>
+    <% if scopecontent_note && !inherited?(scopecontent_note) %>
+    <%= render partial: 'shared/single_note', locals: {:type => 'scopecontent', :note_struct => scopecontent_note, :notitle => false, :heading_size => 'dt', :fa_view => true } %>
+  <% end %>
+    <% arrangement_note = @result.note('arrangement') %>
+  <% if arrangement_note && !inherited?(arrangement_note) %>
+    <%= render partial: 'shared/single_note', locals: {:type => 'arrangement', :note_struct => arrangement_note, :notitle => false, :heading_size => 'dt', :fa_view => true } %>
+  <% end %>
+    <% relatedmaterial_note = @result.note('relatedmaterial') %>
+  <% if relatedmaterial_note && !inherited?(relatedmaterial_note) %>
+    <%= render partial: 'shared/single_note', locals: {:type => 'relatedmaterial', :note_struct => relatedmaterial_note, :notitle => false, :heading_size => 'dt', :fa_view => true } %>
+  <% end %>
+      <% separatedmaterial_note = @result.note('separatedmaterial') %>
+    <% if separatedmaterial_note && !inherited?(separatedmaterial_note) %>
+    <%= render partial: 'shared/single_note', locals: {:type => 'separatedmaterial', :note_struct => separatedmaterial_note, :notitle => false, :heading_size => 'dt', :fa_view => true } %>
+  <% end %>
+
+            <% unless @result.subjects.blank? %>
+    <hr/>
+           <% x= render partial: 'shared/present_list', locals: {:list => @result.subjects, :list_clss => 'subjects_list'} %>
+           <%= render partial: 'shared/fa_subjects', locals: {:p_title =>  t('subject._plural'),
+              :p_id => 'subj_list', :p_body => x} %>
+        <% end %>
+
+          <hr/>
+      </dl><br/></div>
+
+<div id="inventory"><h2>Series Descriptions and Inventory</h2></div>
+
+<% else %>
+                                          
+    <% if @result.level == "series" || @result.level == "recordgrp"
+        if !@result.json["ref_id"].blank?
+      require 'mixed_content_parser'
+      refid = @result.json["ref_id"]
+      toc_id = @result.json["component_id"]
+      toc_title_raw = MixedContentParser.parse(@result.json["display_string"], '/')
+      toc_title = toc_title_raw.html_safe  %>
+<script>$('ul.toc > li > ul.toc-sdi > li > a[data-uri="<%= @result.uri %>"]').attr("href", "#<%= refid %>").html(`<span><% unless toc_id.blank? %><%= toc_id %> <% end %><%= toc_title %></span>`); </script>
+  <% end %><% end %>
+<div class="infinite-item infinite-item-indent-<%= indent_level %> component c-<%= @result.level %>">
+  <div class="information" style="overflow: hidden;">
+      <%=
+        render partial: 'shared/idbadge', locals: {
+          :props => { :full => false, :infinite_item => true },
+          :result => @result,
+          :fa_view_file => true
+        }
+      %>
+  </div>
+
+  <% scopecontent_note = @result.note('scopecontent') %>
+  <% if scopecontent_note && !inherited?(scopecontent_note) %>
+    <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => scopecontent_note, :notitle => true} %>
+  <% end %>
+
+  <dl class="dl-vertical">
+      <% physdesc_note = @result.note('physdesc') %>
+    <% unless @result.notes['physdesc'].blank? || inherited?(physdesc_note) %>
+      <dd><%= render partial: 'shared/single_note', locals: {:type => 'physdesc', :note_struct => physdesc_note, :notitle => true} %></dd>
+  <% end %>
+
+    <% accessrestrict_note = @result.note('accessrestrict') %>
+    <% if accessrestrict_note && !accessrestrict_note['note_text'].blank? && !inherited?(accessrestrict_note) %>
+      <dt><%= accessrestrict_note['label'] %></dt>
+      <dd>
+        <%= render partial: 'shared/single_note', locals: {:type => 'accessrestrict', :note_struct => accessrestrict_note, :notitle => true} %>
+      </dd>
+    <% end %>
+
+  <% arrangement_note = @result.note('arrangement') %>
+  <% if arrangement_note && !inherited?(arrangement_note) %>
+    <%= render partial: 'shared/single_note', locals: {:type => 'arrangement', :note_struct => arrangement_note, :notitle => false, :heading_size => 'dt', :fa_view => true } %>
+  <% end %>
+
+    <% unless @result.extents.blank? || all_inherited?(@result.extents) %>
+        <dt><%= t('resource._public.extent') %></dt>
+        <% @result.extents.each do |extent| %>
+          <dd>
+            <%= inheritance(extent['_inherited']).html_safe %>
+            <%= extent['display']%>
+          </dd>
+        <% end %>
+    <% end %>
+
+<% unless @result.subjects.blank? %>
+           <% x= render partial: 'shared/present_list', locals: {:list => @result.subjects, :list_clss => 'subjects_list'} %>
+           <%= render partial: 'shared/fa_subjects', locals: {:p_title =>  t('subject._plural'),
+              :p_id => 'subj_list', :p_body => x} %>
+        <% end %>
+
+    <% unless @result.agents.blank? || all_inherited?(@result.agents.collect(&:last).flatten) || @result.agents['creator']  %>
+      <dt><%= t('pui_agent.related') %></dt>
+        <% @result.agents.collect(&:last).flatten.each do |relationship| %>
+          <dd>
+            <%= link_to relationship.fetch('_resolved').fetch('title'), app_prefix(relationship.fetch('ref')) %>
+          </dd>
+        <% end %>
+    <% end %>
+
+  </dl>
+</div>
+<% end %>
+          </div>

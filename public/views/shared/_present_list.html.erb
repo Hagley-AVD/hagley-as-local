@@ -1,0 +1,56 @@
+<% if list.kind_of? Hash
+   list.each do |k,v| %>
+   <h3><%= k %> <a href="#target-<% list_clss %>" id="info-modal"><i class="fa fa-info-circle" aria-hidden="true"></i></a></h3>
+   <ul class="present_list <%= list_clss %>">
+   <% v.each do |item | %>
+     <li>
+     <% unless item['inherit'].blank? %>
+	<%= item['inherit'].html_safe %>
+     <% end %>
+     <% unless item['uri'].blank? %>
+     <a href="<%= app_prefix(item['uri']) %>">
+     <% end %>
+     <%= item['title'] %>
+     <% unless item['uri'].blank? %>
+     </a>
+     <% end %>
+     </li>
+   <% end %>
+   </ul>
+  <% end %>
+<% else %>
+<%# if list_clss == 'top_containers' %>
+	<!-- em>Select the link below to view all items in this container</em -->
+<%# end %>
+  <ul class="present_list <%= list_clss %>">
+    <% list.each do |item| %>
+     <li>
+       <% if list_clss == 'subjects_list' && item['jsonmodel_type'].start_with?('agent_') %>
+         <a href="<%= app_prefix(item['uri']) %>">
+           <%= item['title'] %>
+         </a>
+         <% if item['_relator'] %>
+           (<%= t("enumerations.linked_agent_archival_record_relators.#{item['_relator']}", :default => item['_relator'])  %>)
+         <% end %>
+         <%= item['_terms'].map{|t| " -- #{t['term']}"}.join %>
+       <% else %>
+       <% if item.kind_of? Hash %>
+        <% unless item['uri'].blank? %>
+         <a href="<%= app_prefix(item['uri']) %>">
+        <% end %>
+        <%= item['title'] %>
+        <% unless item['uri'].blank? %>
+         </a>
+         <% if list_clss == 'subjects_list' && AppConfig[:show_source_in_subject_listing] %>
+          <strong><%= t("subject.subject_source") %>: </strong><%= t("enumerations.subject_source.#{item['source']}") %>
+         <% end %>
+        <% end %>
+       <% else %>
+         <%= item %>
+       <% end %>
+       <% end %>
+     </li>
+    <% end %>
+  </ul>
+ <% end %>
+ <%= render partial: 'shared/info_modal', locals: {:type => list_clss}   %>

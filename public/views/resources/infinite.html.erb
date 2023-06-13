@@ -1,0 +1,130 @@
+<a name="main" title="<%= t('internal_links.main') %>"></a>
+<script type="text/javascript">
+//document.onreadystatechange = function() {
+//    if (document.readyState !== "complete") {
+//        document.querySelector(".loader").style.visibility = "visible";
+ //   } else {
+ //       document.querySelector(".loader").style.display = "none";
+ //   }
+//};
+//</script>
+<script type="text/javascript">
+$(function() {
+    $(document).ajaxStart(function (){
+        $(".loader").show(); 
+    });
+
+    $(document).ajaxStop(function () {
+        $(".loader").hide(); 
+    });    
+    $(document).ajaxError(function () {
+      $(".loader").hide();  
+    });
+});
+$(function() {
+$("a.ldr-link").delay(12000).fadeIn(400);
+});
+</script>
+<div class="row">
+  <%= render partial: 'shared/breadcrumbs' %>
+</div>
+
+<div id="main-content" class="row">
+  <div class="information col-sm-7">
+    <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+  </div>
+  <div class="page_actions col-sm-5 right">
+    <%= render partial: 'shared/page_actions', locals: {:record => @result, :title =>  @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
+  </div>
+</div>
+<%= render partial: 'shared/modal_actions' %>
+<%= render partial: 'resources/resource_alltabs' %>
+
+<%# mdc: first pass at a fix was just to remove the sidebar.  that's great,
+but the layout still needs to be fixed to mimic NCSU's site, along with scrollspy magic.
+need to get HM (or someone) to update this view so that it mimics
+the NCSU site, with scrollspy... and also includes Duke's nice
+addition of being able to access all of the Series in a UL within the scrollspy.
+...tada! %> 
+
+<%= javascript_include_tag "#{@base_url}/assets/javascripts/legacy-tree.js" %>
+
+	<script src="/assets/javascripts/bootstrap-dropdown.js"/>
+	<script>
+		$('.dropdown-toggle').dropdown()
+	</script>
+
+<div class="row feed-container" id="tabs">
+  <div class="infinite-record-wrapper col-sm-12 col-md-12 col-lg-12" id="center-page">
+
+<nav class="infinite-record-context">
+      <div class="infinite-record-context-affix">
+        <a href="#main-content" aria-hidden="true" class="infinite-record-context-resource" style="padding-left: 45px;">
+          <span class="infinite-record-context-resource-back-to-top">
+            <i aria-hidden="true" class="fa fa-chevron-circle-up"></i> <span>Return to top</span>
+          </span>
+          <span class="infinite-record-context-resource-title">
+	  	<h1><%= @result.display_string.html_safe %> (<%= @result.identifier %>)</h1>
+          </span>
+        </a>
+      </div>
+    </nav>
+
+      <div class="infinite-record-container">
+          <div class="root">
+          <%= render partial: 'resources/fa_toc', locals: {:result => @result} %>
+                <div class="loader col-sm-8 col-xs-12">
+                  <div class="ldr-icon">
+                    <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                    <p class="ldr-text">Loading components. Please wait...<br/>
+                    <a class="ldr-link" href="/help#findingaidview" target="_blank">Why is this taking so long?</a></p>
+                  </div>
+                </div>
+              <% waypoint_size = 100 %>
+              <% @ordered_records.each_slice(waypoint_size).each_with_index do |refs, i| %>
+                  <div class="waypoint" data-waypoint-number="<%= i %>" data-waypoint-size=<%= waypoint_size %> data-uris="<%= refs.map {|r| r['ref']}.join(';') %>" style="clear:both;">
+                  <%refs.each do |record|%>
+                    <div class="recordplaceholder" id="<%= record["ref"]%>"></div>
+                    <% if record["level"] == "series" || record["level"] == "recordgrp" %>
+                      <% p_ref = record["ref"] %>
+  <script>$("ul.toc > li > ul.toc-sdi").append('<li><a data-uri="<%= record['ref'] %>">Please wait...</a></li>');</script>
+                    <% end %>
+                  <%end%>
+                  </div>
+              <% end %>
+          </div>
+
+          </div>
+      </div>
+      </div></div>
+
+<script>
+function smoothScroll(id) {
+    //console.log('#' + String(id))
+      $('html, body').animate({
+        scrollTop: $(document.getElementById(id)).offset().top - 155
+    }, 200);
+}
+</script>
+
+<script>
+async function createWaypointLoader() {
+  var loader = new WaypointLoader('<%= url_for(:action => :show) %>/infinite',
+                                  $('.infinite-record-wrapper'),
+                                  <%= @ordered_records.length %>,
+                                  function() {
+                                  });
+  
+  /* NOTE: This just here for debugging... */
+  window.loader = loader;
+}
+createWaypointLoader()
+</script>
+
+
+
+
+
+
+<%#= javascript_include_tag "#{@base_url}/assets/javascripts/toc-builder.js" %>
+

@@ -1,0 +1,8 @@
+en:
+        welcome:
+                heading: Welcome to PedroSpace
+                message_logged_in: Baaaahh!
+        event:
+                types:
+                        files_on_roxanne: Files on Roxanne
+
