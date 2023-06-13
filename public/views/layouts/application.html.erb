@@ -14,8 +14,9 @@
 		<meta name="referrer" content="origin-when-cross-origin" />
 	<% end %>
 
-	<script>
+        <script>
 	 var APP_PATH = '<%= PrefixHelper.app_prefix("") %>';
+	 var SHOW_IDENTIFIERS_IN_TREE = <%= AppConfig[:pui_display_identifiers_in_resource_tree] %>;
 	</script>
 
 	<%= stylesheet_link_tag    'application', media: 'all' %>

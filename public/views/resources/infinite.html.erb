@@ -351,7 +351,7 @@ addition of being able to access all of the Series in a UL within the scrollspy.
 
       <div class="infinite-record-container">
           <div class="root">
-              <% waypoint_size = 20 %>
+              <% waypoint_size = 100 %>
               <% @ordered_records.each_slice(waypoint_size).each_with_index do |refs, i| %>
                   <div class="waypoint" data-waypoint-number="<%= i %>" data-waypoint-size=<%= waypoint_size %> data-uris="<%= refs.map {|r| r['ref']}.join(';') %>">
                   <%refs.each do |record|%>

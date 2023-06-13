@@ -1038,7 +1038,9 @@ div.images a.thumbnail{
 div.images div.objectimage{
 	margin: 1.5em .5em 0 1.5em;
 	width: 35%;
+	float:right;
 }
+.objectimage img{min-width:unset;}
 /*sidebar headers*/
 #sidebar-resource-header{text-align:center;}
 #sidebar-resource-header h2{margin:0;margin-bottom:-10px;}
@@ -1177,3 +1179,8 @@ div#library-alert-mobile{
 }
 
 	}
+/* v3.2.0 updates */
+
+/* v3.2.0 updates */
+.modal-footer .btn-primary{display:none;}
+
