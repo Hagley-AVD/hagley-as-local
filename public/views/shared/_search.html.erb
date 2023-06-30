@@ -24,6 +24,8 @@
     <% if i == 0 %>
       <div class="col-sm-3 form-group form-inline norepeat">
         <%= label_tag(:limit, t('advanced_search.limit_label')) %>
+        <% limit_options = [["#{t('actions.search')} #{t('search-limits.all')}",''],
+            [t('search-limit', :limit => t('search-limits.resources')),'resource']] %>
         <%= select_tag(:limit, options_for_select(limit_options, @search[:limit]), :class=> 'form-control fill-column') %>
       </div>
     <% end %>
