@@ -591,6 +591,7 @@ div.hagley-menu-wrapper{
 #search_row_0 div.bool.form-group.form-inline{
 	display:none;
 }
+.search_row div.form-group{padding: 0 2px;}
 form#advanced_search{
 	margin-left:50px;
 }
@@ -642,7 +643,7 @@ form#advanced_search{
 	div.yrto{width:50%;}
 	div.yrfrom{width:50%;}
 	#submit_search{width:100%;}
-	#submit_div{width:300px; padding:0 10px 0 10px;}
+	#submit_div{width:100%; padding:0 2px;}
 	.navbar .top-bar{
 		background:rgb(0,66,95) !important;
 		color:#fff !important;

@@ -107,13 +107,6 @@
       </dd>
     <% end %>
 
-    <% accessrestrict_note = @result.note('accessrestrict').reject{|r| r['_inherited']} %>
-    <% if accessrestrict_note && !accessrestrict_note['note_text'].blank? %>
-      <dd>
-        <%= render partial: 'shared/single_note', locals: {:type => 'accessrestrict', :note_struct => accessrestrict_note, :notitle => true} %>
-      </dd>
-    <% end %>
-
   </dl>
   </div>
 </div>

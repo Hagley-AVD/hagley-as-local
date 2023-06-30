@@ -14,7 +14,6 @@ var fn_plusminus = function(e){
         $(this).html("<i aria-hidden='true' class='" + minusFACss + "'></i>");
     	$(this).attr('title', minusText);
         $(this).attr('aria-label', minusText);
-        $(this).parents('.search_row').find('label.plusminus_label').html("<%= I18n.t('advanced_search.remove_row') %>");
     	var $row = new_row_from_template();
     	$(this).parents('.search_row').after($row);
     	$row.find(".bool select").focus();
@@ -25,7 +24,6 @@ var fn_plusminus = function(e){
             $(this).html("<i aria-hidden='true' class='" + plusFACss + "'></i>");
             $(this).attr('title', plusText);
             $(this).attr('aria-label', plusText);
-            $(this).parents('.search_row').find('label.plusminus_label').html("<%= I18n.t('advanced_search.add_row') %>");
         }
     }
     return false;
@@ -87,7 +85,6 @@ function new_row_from_template() {
     replace_id_ref($row, 'label', 'for', num);
     replace_id_ref($row, 'input', 'id', num);
     replace_id_ref($row, 'select', 'id', num);
-    replace_id_ref($row, 'span', 'id', num);
     $row.attr("id", "search_row_" + num);
     new_button($row, true);
 

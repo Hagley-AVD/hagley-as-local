@@ -1,0 +1,18 @@
+<div id="main-content" class="repositories">
+  <div class="abstract">
+    <%= render partial: 'repositories/repository', locals: {:result => @result,  :full => true} %>
+  </div>
+
+  <div id="whats-in-container">
+    <h2><%= t('repository.what') %> </h2>
+    <div>
+      <ul class="list-inline">
+	<% @badges.each do |type| %>
+	<%= render partial: 'repositories/badge', locals: {:type => type} %>
+	<% end %>
+      </ul>
+    </div>
+
+  </div>
+<%# removed the search for static search on 3.4.0 %>
+</div>

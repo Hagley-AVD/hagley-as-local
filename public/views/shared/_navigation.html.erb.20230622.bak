@@ -1,4 +1,12 @@
 <section id="navigation">
+	        <% Excon.defaults[:ciphers] = 'DEFAULT'
+                         alert_response = Excon.get('https://raw.githubusercontent.com/Hagley-AVD/alerts/main/library-alert')
+unless alert_response.status != 200
+ alert_text = alert_response.body.to_s
+ unless alert_text.include? "no alert" %>
+ <div class="row alert alert-info alert-dismissible announcement" id="library-alert-mobile"><div class="library-alert-inner"><span id="library-alert-text"><%= sanitize alert_response.body %></span></div></div>
+ <%  end
+ end %>
   <nav class="navbar navbar-default" aria-label="top-level navigation">
     <div class="container-fluid navbar-header top-bar">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu"
@@ -16,13 +24,14 @@
             <li><a href="<%= app_prefix(link[0]) %>"><%= t(link[1]) %></a></li>
           <% end %>
           <% unless AppConfig[:pui_hide][:search_tab] %>
-		  <li><a href="/static/html/moo">Frequently Used Topics</a></li>
             <li><a href="<%=  app_prefix('/search?reset=true') %>" title="<%= I18n.t('search_tab', :target => t('archive._plural'))%>">
                 <span class="fa fa-search" aria-hidden="true"></span>
                 <span class="sr-only" id="nav-search">Search</span>
               </a>
             </li>
           <% end %>
+	  <li><a href="/static/html/frequent-topics">Frequently Used Topics</a></li>
+	  <li><a href="/help">Help</a></li>
         </ul>
       </div>
     </div>

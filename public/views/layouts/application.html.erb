@@ -50,6 +50,7 @@ $(window).load(function() {
 
 	<div class="container-fluid no-pad">
 		<%= render partial: 'shared/header' %>
+		<% unless current_page?('/search') %>
 		<%= render partial: 'shared/static_search', locals: {
       :search_url => "/search",
       :title => t('archive._plural'),
@@ -62,9 +63,10 @@ $(window).load(function() {
             ["#{t('search_results.filter.creators')}",'creators_text'],
             ["#{t('search_results.filter.subjects')}",'subjects_text'],
             ["#{t('search_results.filter.notes')}", 'notes'],
-            ["#{t('search_results.filter.identifier')}", 'four_part_id']
+            ["#{t('search_results.filter.identifier')}", 'identifier']
            ]
     }  %>
+	<% end %>
 		<%= render partial: 'shared/navigation' %>
 	</div>
 

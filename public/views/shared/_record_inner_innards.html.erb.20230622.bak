@@ -5,7 +5,7 @@
   <% coltitle = @result.resolved_resource %>
 	<% col_id = (0..3).map {|part| @result.resolved_resource["id_#{part}"]} %>
 	<% accession_number = col_id.reject(&:blank?).join("-") %>
-	<div class="coltitle"><h3>Part of: <a href="<%= @result.resource_uri %>" title="Link to <%= coltitle['title'] %>"><%= coltitle['title'] %> (<%= accession_number %>)</a></h3></div>
+	<div class="coltitle"><h3>Part of: <a href="<%= @result.resource_uri %>" title="Link to <%= coltitle['title'] %>"><%= process_mixed_content(coltitle['title']).html_safe %> (<%= accession_number %>)</a></h3></div>
 
 	    <% over = @result.note('summary') %>
     <% if over.blank?

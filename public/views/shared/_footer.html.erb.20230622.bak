@@ -50,8 +50,7 @@
 	</div>
   <div class="row">
      <div class="col-md-12">
-       <p class="footer-items"><%= I18n.t("footer.staff_interface", staff_url: AppConfig[:frontend_proxy_url]).html_safe %>
-         | <%= I18n.t("footer.archivesspace_home").html_safe %>
+       <p class="footer-items"><a href="<%= AppConfig[:frontend_proxy_url] %>">Staff Interface</a>
          | <%= ASConstants.VERSION %>
      </div>
   </div>
