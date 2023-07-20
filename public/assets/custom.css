@@ -1185,3 +1185,4 @@ div#library-alert-mobile{
 /* v3.2.0 updates */
 .modal-footer .btn-primary{display:none;}
 
+#tabs > div > ul > li:nth-child(4){display:none;}
