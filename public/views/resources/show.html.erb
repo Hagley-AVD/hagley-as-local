@@ -31,7 +31,7 @@
     <% if defined?(@filters) && defined?(@search) %>
     <%= render partial: 'shared/facets' %>
    <% end %>
-   <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result['uri'], :action_text => "#{t('actions.search_in', :type => t('resource._singular'))}"} %>
+   <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result['uri'], :action_text => "#{t('actions.search_in', :type => 'within this collection')}"} %>
    <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('cont_arr'), :root_node_uri => @result.uri, :current_node_uri => @result.uri} %>
  </div>
 </div>

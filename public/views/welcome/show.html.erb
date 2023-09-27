@@ -1,18 +1,68 @@
+<%  # count the collections #
+    num_collection = []
+    @fa_counts.each do |repo,collection| 
+        collection.each do |pui_collection,v| 
+         num_collection.push(v)
+         end 
+      end 
+    fa_total = num_collection.sum %>
 <div class="row">
   <div class="col-sm-8 welcome">
     <h2><%= t('brand.welcome_head') %></h2>
-      <div> <%= t('brand.welcome_message').html_safe %> </div>
+      <div> <%= t('brand.welcome_message', :fa_total => fa_total).html_safe %> </div>
     <h2>Using the database</h2>
     <div>
-	    <p>Start with Keyword searching.</p>
+	    <p>Start with Keyword searching. </p>
 	    <p>For phrase searching, use quotes around your search terms. For example "Defense Audiovisual Agency".</p>
-	    <p>Take note of the following throughout the site:</p>
+	    <p>Take note of the following throughout the site: </p>
 	    <div class="help-images">
-		    <a href="/assets/images/BreadCrumb_Snip2.png" target="_blank" alt="Collection breadcrumb"><img src="/assets/images/BreadCrumb_Snip2.png" alt="Collection breadcrumb"/></a>
-		    <a href="/assets/images/BreadCrumb_Snip1.png" alt="Search results collection breadcrumb" target="_blank"><img src="/assets/images/BreadCrumb_Snip1.png" alt="Search results collection breadcrumb"/></a>
+        <div class="bc-search">
+        <div class="result_context">
+	      <span class="found-in"><strong>Found in: </strong></span>
+        <span class="repo_name">
+          <a href="/repositories/2" onclick="return noGo()">Audiovisual Collections</a>
+        </span>
+
+            /
+            <span class="ancestor">
+            <a href="/repositories/2/resources/807" onclick="return noGo()">2018-201, Culley family collection of Cinecraft Productions audiovisual materials</a>
+            </span>
+            /
+            <span class="ancestor">
+            <a href="/repositories/2/archival_objects/121734" onclick="return noGo()">Company and personnel history</a>
+            </span>
+        </div>
+        </div>
+        <div class="bc-object">
+              <ul class="breadcrumb">
+	<li>
+	  <span class="record-type-badge repository" aria-hidden="true">       <i class="fa fa-home"></i>     </span>
+	    <a href="/repositories/2" onclick="return noGo()">
+		Audiovisual Collections
+	    </a>
+	</li>
+	<li>
+	  <span class="record-type-badge resource" aria-hidden="true">       <i class="fa fa-archive"></i>     </span>
+	    <a href="/repositories/2/resources/807" onclick="return noGo()">
+		Culley family collection of Cinecraft Productions audiovisual materials (2018-201)
+	    </a>
+	</li>
+	<li>
+	  <span class="record-type-badge archival_object" aria-hidden="true">       <i class="fa fa-file-o"></i>     </span>
+	    <a href="/repositories/2/archival_objects/121734" onclick="return noGo()">
+		Company and personnel history, 1939-2016
+	    </a>
+	</li>
+	<li>
+	  <span class="record-type-badge archival_object" aria-hidden="true">       <i class="fa fa-file-o"></i>     </span>
+	    Best Commercials on TV, 1954
+	</li>
+      </ul>
+        </div>
 	    </div>
+      <script>function noGo(){return false}</script>
 	    <p>The breadcrumbs depicted above allow you to click on futher description and details about your search results.</p>
-	    <p>To request or cite material in this database, please use the <em><strong>collection title</strong></em>, <em><strong>accession number</strong></em>, and <em><strong>box number</strong></em>.
+	    <p>To request or cite material in this database, please use the <strong>collection title</strong>, <strong>accession number</strong>, and <strong>box number</strong>.
     </div>
     <div>
 	    <h2>Additional Information</h2>
@@ -27,11 +77,12 @@
         <div class="hagley-vault" id="hagley-vault"></div></a>
           </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
+    <script referrerpolicy="unsafe-url">
 
         let requestURL = 'https://www.hagley.org/research/news/hagley-vault/feed';
         let request = new XMLHttpRequest();
         request.open('GET', requestURL);
+        request.setRequestHeader('Access-Control-Allow-Origin', 'https://www.hagley.org');
         request.responseType = 'json';
         request.send();
         request.onload = function() {

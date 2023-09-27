@@ -8,6 +8,7 @@
        non_folder.shift # remove abstract from in-folder notes
 
     end %>
+    
     <% unless over.blank? %>
       <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => over} %>
     <% end %>
@@ -59,8 +60,6 @@
       <%= render :file => template if File.exists?(template) %>
     <% end %>
 
-    <hr/>
-	    <h2>Additional Information</h2>
         <% x = render partial: 'shared/multi_notes', locals: {:types => folder} %>
         <% unless x.blank? %>
         <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.additional'),

@@ -1,0 +1,36 @@
+<div class="search-wrapper">
+	<div class="row search-inner">
+      <div class="logo-wrapper">
+          <a href="/" alt="Finding Aids Home">
+              <img class="logo" src="/assets/images/new_fa5_white.png" alt="Finding Aids Archival Collections at Hagley Museum and Library">
+              <h1>Finding Aids</h1>
+            </a>
+      </div>
+<div class="search" role="search">
+  <a name="search" id="search"></a>
+  <% @search = Search.new unless defined?(@search) %>
+  <%= form_tag(app_prefix("#{search_url}"), method: 'get', :id => 'advanced_search_disabled') do %>
+  <% (0...[1, @search.q.length].max).each do |i| %>
+  <div class="row no-search">
+
+    <div class="search-sm form-group form-inline">
+
+      <%= text_field_tag('q[]', @search[:q][i], :placeholder =>  t('navbar.search_placeholder'), :id => "q#{i}",
+                         :class=> 'form-control repeats fill-column js-search-box', :disabled => true) %>
+    </div>
+
+    <div class="search-field-select form-inline form-group">
+      <%= select_tag('field[]', options_for_select(field_options, @search[:field][i]), :id=> "field#{i}", :class=> 'form-control repeats', :disabled => true ) %>
+    </div>
+
+      <div class="norepeat form-group form-inline" id="submit_div">
+      <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary', :id => 'submit_search', :disabled => true) %>
+  </div>
+
+  </div>
+  <% end %>
+
+  <% end %>
+</div>
+</div>
+

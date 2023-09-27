@@ -10,8 +10,7 @@
       <%= render partial: 'shared/search', locals: {:search_url => @base_search,
                                                     :title => t('archive._plural'),
                                                     :limit_options => [["#{t('actions.search')} #{t('search-limits.all')}",''],
-                                                                       [t('search-limit', :limit => t('search-limits.resources')),'resource'],
-                                                                       [t('search-limit', :limit => t('search-limits.digital')),'digital_object']],
+                                                                       [t('search-limit', :limit => t('search-limits.resources')),'resource'],],
                                                     :field_options => [["#{t('search_results.filter.fullrecord')}",''],
                                                                        ["#{t('search_results.filter.title')}",'title'],
                                                                        ["#{t('search_results.filter.creators')}",'creators_text'],
@@ -24,13 +23,15 @@
 
   <% unless defined?(@no_statement) %>
     <div class="searchstatement">
-      <div class="btn btn-group pull-right">
+      <div class="btn btn-group clear">
         <%= link_to I18n.t('actions.new_search'), (defined?(@new_search) ? @new_search : root_path), :class => "btn btn-sm btn-default" %>
         <button class="btn btn-sm btn-default" id="toggleRefineSearch" aria-expanded="false" aria-controls="refineSearchPanel"><%= I18n.t('actions.refine_search') %></button>
       </div>
 
       <% if defined?(@search) %>
+      <div class="searchstatement_text">
         <%= @search[:search_statement].html_safe %>
+        </div>
       <% end %>
 
       <div id="refineSearchPanel" class="container refinesearch" aria-hidden="true" style="display:none;">
@@ -38,7 +39,7 @@
                                                       :title => t('archive._plural'),
                                                       :limit_options => [["#{t('actions.search')} #{t('search-limits.all')}",''],
                                                                          [t('search-limit', :limit => t('search-limits.resources')),'resource'],
-                                                                         [t('search-limit', :limit => t('search-limits.digital')),'digital_object']],
+                                                                         ],
                                                       :field_options => [["#{t('search_results.filter.fullrecord')}",''],
                                                                          ["#{t('search_results.filter.title')}",'title'],
                                                                          ["#{t('search_results.filter.creators')}",'creators_text'],

@@ -1,9 +1,12 @@
 <div class="search-wrapper">
-	<div class="row">
-	<div class="logo-wrapper col-sm-3">
-		<img class="logo" src="/assets/images/new_fa_grue.png" alt="Finding Aids Archival Collections at Hagley Museum and Library">
-	</div>
-<div class="search col-sm-9" role="search">
+	<div class="row search-inner">
+      <div class="logo-wrapper">
+          <a href="/" alt="Finding Aids Home">
+              <img class="logo" src="/assets/images/new_fa5_white.png" alt="Finding Aids Archival Collections at Hagley Museum and Library">
+              <h1>Finding Aids</h1>
+            </a>
+      </div>
+<div class="search" role="search">
   <a name="search" id="search"></a>
   <% @search = Search.new unless defined?(@search) %>
   <%= form_tag(app_prefix("#{search_url}"), method: 'get', :id => 'advanced_search') do %>
@@ -19,12 +22,14 @@
       <%= text_field_tag('q[]', @search[:q][i], :placeholder =>  t('navbar.search_placeholder'), :id => "q#{i}",
                          :class=> 'form-control repeats fill-column js-search-box') %>
     </div>
-  <div class="norepeat form-group form-inline" id="submit_div">
-      <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary', :id => 'submit_search') %>
-  </div>
-    <div class="col-sm-4 form-group">
+
+    <div class="search-field-select form-inline form-group">
       <%= select_tag('field[]', options_for_select(field_options, @search[:field][i]), :id=> "field#{i}", :class=> 'form-control repeats') %>
     </div>
+
+      <div class="norepeat form-group form-inline" id="submit_div">
+      <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary', :id => 'submit_search') %>
+  </div>
 
   </div>
   <% end %>

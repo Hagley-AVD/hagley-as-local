@@ -41,8 +41,8 @@
       <%= text_field_tag('to_year[]', @search[:to_year][i], :size => 4, :maxlength => 4, :id => "to_year#{i}",
                          :class=> 'form-control repeats', :placeholder => t('search_results.filter.to')) %>
     </div>
-    <div class="col-sm-1">
-        <label for="plusminus<%= i %>" class="repeats plusminus_label"><%= t('advanced_search.add_row') %></label><br />
+    <div class="col-sm-1 form-group">
+        <label for="plusminus<%= i %>" class="repeats plusminus_label"><%= t('advanced_search.add_row') %></label>
         <span class="plusminus" id="plusminus<%= i %>"></span>
     </div>
   </div>

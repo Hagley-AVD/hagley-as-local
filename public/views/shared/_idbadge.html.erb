@@ -1,4 +1,5 @@
 <%
+require 'mixed_content_parser'
 if result.level
     if result.primary_type =~ /digital_object/
       level = I18n.t("enumerations.digital_object_level.#{result.level}", :default => result.level)
@@ -10,7 +11,13 @@ if result.level
 else
     badge_label = t("#{result.primary_type}._singular")
 end
-
+%>
+<%
+  if result.level == "series" || result.level == "recordgrp"
+  refid = result.json["ref_id"]
+  toc_id = result.json["component_id"]
+  toc_title = result.json["display_string"]
+  end
 %>
 
 <%# build URL with slugs depending on the primary type %>
@@ -41,9 +48,11 @@ end
 
 <%= (props.fetch(:full,false)? '<h1>' : '<h3>').html_safe %>
   <% if !props.fetch(:full,false) %>
-    <a class="record-title" href="<%= app_prefix(url) %>">  <%== result.display_string %></a>
+    <a href="<%= app_prefix(url) %>" class="record-title<% if props.fetch(:infinite_item, true) && !refid.blank? %> tocSeries" id="<%= refid %>" data-id="<%= toc_id %>" data-title="<%= toc_title %>"<% else %>"<% end %>>
+      <%= props.fetch(:infinite_item, false) ? result.parse_full_title(true).html_safe : MixedContentParser.parse(result.display_string, '/').html_safe %>
+    </a>
   <% else %>
-	  <%== result.display_string %>
+    <%= result.display_string.html_safe %>
   <% end %>
 <%= (props.fetch(:full,false)? '</h1>' : '</h3>').html_safe %>
 <%# Add dates to title on record pages %>
@@ -56,7 +65,7 @@ end
        <% end %>
 
        <%# Part of/Found in breadcrumb from results %>
-          <% if !props.fetch(:full,false) %>
+          <% if !props.fetch(:full,false) && !props.fetch(:infinite_item, false) %>
        <% if result.resolved_repository %>
       <div class="result_context">
 	      <span class="found-in"><strong><%= t('context') %>: </strong></span>
@@ -73,6 +82,7 @@ end
             <span class="ancestor">
             <% identifier = ancestor.has_key?('id_0') ? (0..3).collect { |i| ancestor["id_#{i}"] }.compact.join('-') : nil %>
             <% title = process_mixed_content(ancestor.fetch('title', "[#{ ancestor.fetch('level', 'untitled')}]" )).html_safe %>
+            <% title_mixed = process_mixed_content(title).html_safe %>
             <%= link_to raw(identifier.blank? ? title : "#{identifier}, #{title}"), app_prefix(ancestor.fetch('uri')) %>
             </span>
           <% end %>
@@ -88,15 +98,28 @@ end
         <% end %>
 <% end %>
 
+<% unless result.resolved_top_container.blank?
+  b = result.resolved_top_container
+  box_uri = b['uri']
+  end %>
 
 <div class="badge-and-identifier">
+<% if defined?(fa_view_file) && (result.level == "file" || result.level == "item") && !box_uri.blank? %>
+<a class="box-uri" alt="View container contents" href="<%= box_uri %>">
+<% end %>
   <div class="record-type-badge <%= (result.primary_type.start_with?('agent') ? 'agent' : result.primary_type) %>">
     <i class="<%= icon_for_type(result.primary_type) %>"></i>&#160;<%= badge_label %> <% if result.container_summary_for_badge %> &mdash; <%= result.container_summary_for_badge %><% end %>
   </div>
-    <% comp_id = display_component_id(result, props.fetch(:infinite_item, false)) %>
+  <% if defined?(fa_view_file) && (result.level == "file" || result.level == "item") && !box_uri.blank? %>
+  </a>
+  <% end %>
+
+  <% comp_id = display_component_id(result, props.fetch(:infinite_item, false)) %>
   <% unless comp_id.blank? %>
+   <% unless defined?(fa_view_file) && (result.level == "file" || result.level == "item") && !box_uri.blank? %>
     <div class="identifier">
       <span class="id-label"><%= t('search_sorting.identifier') %>:</span>&#160;<span class="component"><%= comp_id %></span>
     </div>
+    <% end %>
   <% end %>
 </div>
