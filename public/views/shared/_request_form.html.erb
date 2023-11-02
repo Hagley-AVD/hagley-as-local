@@ -9,9 +9,9 @@
 
   <div id="request">
 	  <p>Physical access to archival collections is limited to the grounds of Hagley Museum and Library. For more information and to plan a visit, please see <a href="https://www.hagley.org/research/collections/researcher-services" target="_blank">researcher services</a>.</p>
-	  <hr/><p><strong>IMPORTANT:</strong> Prior to requesting material, please review listed <strong>access restrictions</strong>.</p><% unless arcontent.blank? %><div id="restrictions"><p><strong>This Item:</strong></p><p><%= arcontent %></p><% end %></div><hr/>
+	  <hr/><p><strong>IMPORTANT:</strong> Prior to requesting material, please review listed <strong>access restrictions</strong>.</p><% unless arcontent.blank? %><div id="restrictions"><p><strong>This Item:</strong></p><p><%= arcontent.html_safe %></p><% end %></div><hr/>
     <div class="row">
-	  <div class="col-md-6"><p>To request material from the archives, provide us: </p><ul><li><strong>Collection Title(s)</strong></li><li><strong>Accession Number(s) or Identifier(s)</strong></li> and, if applicable, <li><strong>Box or Container Number(s)</strong></li></ul><p>This will greatly assist us in delivering the requested material to the reading room.</p>
+	  <div class="col-md-6"><p><strong>To request material from the archives, provide us:</strong> </p><ul><li>Collection Title(s)</li><li>Accession Number(s) or Identifier(s)</li> and, if applicable, <li>Box or Container Number(s)</li></ul><p>This will greatly assist us in delivering the requested material to the reading room.</p>
     </div>
     <div class="col-md-6">
 	  <p><strong>This Item:</strong></p>

@@ -56,7 +56,7 @@ end
   <% end %>
 <%= (props.fetch(:full,false)? '</h1>' : '</h3>').html_safe %>
 <%# Add dates to title on record pages %>
-<% if props.fetch(:full,false) %>
+<% if props.fetch(:full,false) && result.primary_type != 'archival_object' %>
 <% unless @result.dates.blank? %>
        <% @result.dates.each do |date| %>
 	       <span class="title-date"><%= inheritance(date['_inherited']).html_safe %><%= date['final_expression'] %></span>
@@ -104,21 +104,31 @@ end
   end %>
 
 <div class="badge-and-identifier">
-<% if defined?(fa_view_file) && (result.level == "file" || result.level == "item") && !box_uri.blank? %>
+<% if (result.level == "file" || result.level == "item") && !box_uri.blank? %>
 <a class="box-uri" alt="View container contents" href="<%= box_uri %>">
 <% end %>
   <div class="record-type-badge <%= (result.primary_type.start_with?('agent') ? 'agent' : result.primary_type) %>">
     <i class="<%= icon_for_type(result.primary_type) %>"></i>&#160;<%= badge_label %> <% if result.container_summary_for_badge %> &mdash; <%= result.container_summary_for_badge %><% end %>
   </div>
-  <% if defined?(fa_view_file) && (result.level == "file" || result.level == "item") && !box_uri.blank? %>
+  <% if (result.level == "file" || result.level == "item") && !box_uri.blank? %>
   </a>
   <% end %>
 
   <% comp_id = display_component_id(result, props.fetch(:infinite_item, false)) %>
   <% unless comp_id.blank? %>
    <% unless defined?(fa_view_file) && (result.level == "file" || result.level == "item") && !box_uri.blank? %>
+    <% begin
+    collacc = result.resolved_resource.has_key?('id_0') ? (0..3).collect { |i| result.resolved_resource["id_#{i}"] }.compact.join('-') : nil 
+    rescue 
+    collacc = "NOPE"
+      end %>
     <div class="identifier">
+      <% unless result.resolved_resource.blank? || result.level == "collection" || collacc == comp_id || collacc == "NOPE"  %>
+      <% collacc = result.resolved_resource.has_key?('id_0') ? (0..3).collect { |i| result.resolved_resource["id_#{i}"] }.compact.join('-') : nil %>
+      <span class="id-label"><%= t('search_sorting.identifier') %>:</span>&#160;<span class="component"><%= collacc %></span><span class="id-label-acc">Identifier:</span>&#160;<span class="component_id"><%= comp_id %></span>
+      <% else %>
       <span class="id-label"><%= t('search_sorting.identifier') %>:</span>&#160;<span class="component"><%= comp_id %></span>
+      <% end %>
     </div>
     <% end %>
   <% end %>
